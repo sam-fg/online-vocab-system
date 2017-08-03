@@ -17,7 +17,13 @@ new Vue({ // eslint-disable-line no-new
   data() {
     return {
       currentRoute: "/home",
-      someData: 'hello world'
+      engName: "",
+      stdClass: "",
+      stdNo: "",
+      level: "", //@Home, Test
+      selectedMode: 0, //@Home, Test
+      wrongVocabs: [], //@Test, Report
+      vocabids: [], //@Home (level filter), Test
     }
   },
   computed: {
