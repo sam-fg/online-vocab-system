@@ -1,16 +1,27 @@
 <template>
 <div>
-  <div style="margin-top:12px">
+  <div>
+    <h1>S.K.H. Li Ping Secondary School</h1>
+    <h2>Online Vocabulary Test</h2>
+  </div>
+
+  <div style="margin-top:20px">
     English Name (FULL):
     <input v-model="$root.engName" placeholder="Chan Tai Man"><br/>
+  </div>
+
+  <div style="margin-top:20px">
     Class:
     <input v-model="$root.stdClass" placeholder="1A"><br/>
+  </div>
+
+  <div style="margin-top:20px">
     Class Number:
     <input v-model="$root.stdNo" placeholder="1">
     <!-- {{isCorrect}} -->
   </div>
 
-  <div>
+  <div style="margin-top:20px">
     Level:
     <select v-model="$root.level" @change="vocabIDsLevelCap">
         <option selected value="1">1</option>
@@ -22,7 +33,7 @@
       </select>
   </div>
 
-  <div>
+  <div style="margin-top:20px">
     Mode:
     <select v-model="$root.selectedMode">
         <option selected value="1">Normal</option>

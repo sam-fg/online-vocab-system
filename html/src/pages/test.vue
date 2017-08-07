@@ -78,7 +78,6 @@ export default {
     getNextVocab() {
       const vm = this
       const wrongPercent = vm.$root.wrongVocabs.length / vm.$root.vocabids.length
-      console.log(wrongPercent)
 
       var needRestart = false
       switch (parseInt(vm.$root.selectedMode)) {
@@ -89,7 +88,6 @@ export default {
           needRestart = wrongPercent >= 0.25
           break
       }
-      console.log(needRestart);
 
       if (needRestart) {
         // restart test
