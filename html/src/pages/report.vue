@@ -35,45 +35,43 @@
 </template>
 
 <script>
-
 import axios from 'axios'
 import _ from 'lodash'
+
+import config from '../config.js'
 export default {
-  data() {
+  data () {
     return {
       stat: []
     }
   },
-  mounted() {
-
-  document.getElementById("date").innerHTML = Date();
+  mounted () {
+    /* global document */
+    document.getElementById('date').innerHTML = Date()
 
     const vm = this
-    // TODO: api/assessment/:name/report
-    axios.post('./api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
-      .then(function(response){
-        vm.stat = _.orderBy(response.data, "index")
+    axios.post(config.serverBase + 'api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
+      .then(function (response) {
+        vm.stat = _.orderBy(response.data, 'index')
       })
-      .catch(function(error){
+      .catch(function (error) {
         console.error(error)
       })
   },
-  // TODO: Cf vocabids
-
   computed: {
-    correctPercent() {
+    correctPercent () {
       const vm = this
       const percentage = (1 - (vm.$root.wrongVocabs.length / vm.$root.vocabids.length))
-      return Math.round(percentage*1000)/10
+      return Math.round(percentage * 1000) / 10
     },
-    correctVocabs() {
+    correctVocabs () {
       const vm = this
       return vm.$root.vocabids.length - vm.$root.wrongVocabs.length
-    },
+    }
   },
   methods: {
     onPrint () {
-      window.print();
+      window.print()
     }
   }
 }

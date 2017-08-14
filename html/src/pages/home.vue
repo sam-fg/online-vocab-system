@@ -94,48 +94,32 @@
 
 <script>
 import axios from 'axios'
-import _ from 'lodash'
+import config from '../config.js'
 
 export default {
-  data() {
+  data () {
     return {
-      assessmentNames: [] //@Test
+      // @Test
+      assessmentNames: []
     }
   },
-  mounted() {
-  const vm = this
-  axios.get('./api/assessment/')
-    .then(function(response) {
-      vm.assessmentNames = response.data
-      console.log(vm.assessmentNames);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
+  mounted () {
+    const vm = this
+    axios.get(config.serverBase + 'api/assessment/', {withCredentials: true})
+      .then(function (response) {
+        vm.assessmentNames = response.data
+        console.log(vm.assessmentNames)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   },
 
   methods: {
-    onStart() {
+    onStart () {
       const vm = this
-
-        vm.$root.currentRoute = '/test'
-      }
-    // TODO: change method name for better description
-
-    // vocabsToBeTested() {
-    //   const vm = this
-    //   console.log('running vocabsToBeTested');
-    //   // TODO: change the api to api/assessment/:name/size
-    //   axios.get('./api/assessment/' + vm.$root.assessmentName + '/size')
-    //     .then(function(response) {
-    //       vm.$root.vocabids = response.data
-    //       console.log(vm.$root.assessmentName);
-    //     })
-    //     .catch(function(error) {
-    //       console.log(error);
-    //     });
-    // }
-
+      vm.$root.currentRoute = '/test'
+    }
   }
 }
 </script>

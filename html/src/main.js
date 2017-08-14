@@ -2,36 +2,36 @@
 // so you don't have to do: import Vue from 'vue/dist/vue'
 // This is done with the browser options. For the config, see package.json
 import Vue from 'vue'
-import Home from "./pages/home.vue"
-import Test from "./pages/test.vue"
-import Report from "./pages/report.vue"
+import Home from './pages/home.vue'
+import Test from './pages/test.vue'
+import Report from './pages/report.vue'
 
 const routes = {
-  "/home": Home,
-  "/test": Test,
-  "/report": Report
+  '/home': Home,
+  '/test': Test,
+  '/report': Report
 }
 
 new Vue({ // eslint-disable-line no-new
   el: '#app', // This is an ID included in "index.html"
-  data() {
+  data () {
     return {
-      currentRoute: "/home",
-      engName: "",
-      stdClass: "",
-      stdNo: "",
-      assessmentName: "", //@Home, Test
-      selectedMode: "1", //@Home, Test
-      wrongVocabs: [], //@Test, Report
-      vocabids: [], //@Home (level filter), Test
+      currentRoute: '',
+      engName: '',
+      stdClass: '',
+      stdNo: '',
+      assessmentName: '', // @Home, Test
+      selectedMode: '1', // @Home, Test
+      wrongVocabs: [], // @Test, Report
+      vocabids: [] // @Home (level filter), Test
     }
   },
   computed: {
-    currentPage() {
+    currentPage () {
       return routes[this.currentRoute]
     }
   },
-  render(h) {
+  render (h) {
     return h(this.currentPage)
   }
 })
