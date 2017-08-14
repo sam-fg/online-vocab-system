@@ -1,21 +1,30 @@
 <template lang="html">
   <div>
-    <h1>Report</h1>
-    <h1>Online Vocabulary Test - Level {{$root.level}}</h1>
-    <h2>Name: {{$root.engName}}</h2>
-    <h2>Class: {{$root.stdClass}}</h2>
-    <h2>Class No.: {{$root.stdNo}}</h2>
-    <h2>Your score: {{correctPercent}}% ({{correctVocabs}}/{{$root.vocabids.length}})</h2>
-    <h2></h2>
+    <p id="date"></p>
+    <h4><i><b>S.K.H. Li Ping Secondary School</b></i></h4>
+    <h4><i>Online Vocabulary Test Report</i></h4>
+    <hr>
+    <table>
+      <tr>
+        <td><h5>Student : </h5></td>
+        <td><h3>{{$root.stdClass}} {{$root.engName}} ({{$root.stdNo}})</h3></td>
+      </tr>
+      <tr>
+        <td><h5>Score : </h5></td>
+        <td><h3>{{correctVocabs}}/{{$root.vocabids.length}} ({{correctPercent}}%)</h3></td>
+      </tr>
+    </table>
+    <hr>
+    <h1>[{{$root.assessmentName}}]</h1>
     <div>
       <table>
         <tr>
-          <td><u>|Your wrong answers</u></td>
-          <td><u>|Correct spelling</u></td>
+          <td><b><u>X--Your WRONG Answers--X</u></b></td>
+          <td><b>--> <u>Correct Spelling</u></b></td>
         </tr>
         <tr v-for="s in stat">
-          <td><u>|{{s.ans}}</u></td>
-          <td><u>|{{s.title}}</u></td>
+          <td>{{s.ans}}</td>
+          <td> --> {{s.title}}</td>
           <td>({{s.partOfSpeech}})</td>
         </tr>
       </table>
@@ -36,15 +45,21 @@ export default {
     }
   },
   mounted() {
+
+  document.getElementById("date").innerHTML = Date();
+
     const vm = this
-    axios.post('./api/vocab/id', vm.$root.wrongVocabs)
+    // TODO: api/assessment/:name/report
+    axios.post('./api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
       .then(function(response){
-        vm.stat = _.orderBy(response.data, "id")
+        vm.stat = _.orderBy(response.data, "index")
       })
-      .catch(function(err){
-        console.error(err)
+      .catch(function(error){
+        console.error(error)
       })
   },
+  // TODO: Cf vocabids
+
   computed: {
     correctPercent() {
       const vm = this
@@ -54,7 +69,7 @@ export default {
     correctVocabs() {
       const vm = this
       return vm.$root.vocabids.length - vm.$root.wrongVocabs.length
-    }
+    },
   }
 }
 

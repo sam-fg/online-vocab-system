@@ -2,6 +2,7 @@ const assessments = require('./assessments.js');
 const _ = require('lodash');
 
 function getVocabs(assessmentName) {
+
   const filename = assessmentName + '.json';
   const vocabs = _.find(assessments, {
     name: filename
@@ -9,5 +10,4 @@ function getVocabs(assessmentName) {
 
   return vocabs
 }
-
 exports.getVocabs = getVocabs

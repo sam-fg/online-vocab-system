@@ -20,7 +20,7 @@ new Vue({ // eslint-disable-line no-new
       engName: "",
       stdClass: "",
       stdNo: "",
-      level: "", //@Home, Test
+      assessmentName: "", //@Home, Test
       selectedMode: 0, //@Home, Test
       wrongVocabs: [], //@Test, Report
       vocabids: [], //@Home (level filter), Test

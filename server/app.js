@@ -25,6 +25,11 @@ const routers = [{
   api: "/api/assessment",
   handler: "assessment.js"
 }, {
+  // will return number of vocabs by given assessment name
+  method: "get",
+  api: '/api/assessment/:name/size',
+  handler: 'size.js'
+}, {
   // get the vocab by given assessment name and index
   method: "get",
   api: "/api/assessment/:name/index/:index",
