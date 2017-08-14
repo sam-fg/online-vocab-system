@@ -38,8 +38,8 @@
             <div class="form-group row">
               <label class="col-sm-4">Test:</label>
               <div class="col-sm-7">
-                <select v-model="$root.assessmentName" class="form-control" @change="vocabsToBeTested">
-                  <option v-for="name in assessmentNames" v-bind:value="name">
+                <select v-model="$root.assessmentName" class="form-control">
+                  <option v-for="name in assessmentNames">
                     {{name}}
                   </option>
                 </select>
@@ -57,7 +57,7 @@
               </div>
             </div>
 
-            <button class="btn btn-primary btn-lg" @click="onStart" type="submit">
+            <button class="btn btn-primary btn-lg" @click.prevent="onStart" type="submit">
               Start the test
             </button> 
           </form>
@@ -78,11 +78,13 @@ export default {
       clazzes: ['1A', '1B', '1C', '1D', '2A', '2B', '2C', '2D', '3A', '3B', '3C', '3D', '4A', '4B', '4C', '4D', '4E', '5A', '5B', '5C', '5D', '5E', '6A', '6B', '6C', '6D', '6E']
     }
   },
-  mounted () {
+  created () {
     const vm = this
-    axios.get('./api/assessment/', {withCredentials: true})
+    axios.get('./api/assessment/')
       .then(function (response) {
-        vm.assessmentNames = response.data
+        response.data.forEach(name => {
+          vm.assessmentNames.push(name)
+        })
         console.log(vm.assessmentNames)
       })
       .catch(function (error) {
@@ -92,7 +94,18 @@ export default {
   methods: {
     onStart () {
       const vm = this
-      vm.$root.currentRoute = '/test'
+      if (
+        vm.$root.engName === '' ||
+        vm.$root.stdClass === '' ||
+        vm.$root.stdNo < 1 ||
+        vm.$root.stdNo > 40 ||
+        vm.$root.assessment === '' ||
+        vm.$root.selectedMode === '0'
+      ) {
+        window.alert('Input all information properly')
+      } else {
+        vm.$root.currentRoute = '/test'
+      }
     }
   }
 }

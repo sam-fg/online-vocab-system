@@ -1,7 +1,7 @@
 <template lang="html">
 
   <div style='width: 500px; margin-top: 12px' class="mx-auto"> <!-- 1 -->
-
+    <audio :src='voiceUrl' autoplay ref='player'></audio>
     <div class="card border-info mb-3" style="max-width: 50rem;"> <!-- 2 -->
       <div class="card-header">
         <h5><B style='color: #336699'>English Vocabulary Test</b></h5>
@@ -71,30 +71,19 @@ export default {
   },
   mounted () {
     const vm = this
-    if (vm.$root.engName === '' ||
-      vm.$root.stdClass === '' ||
-      vm.$root.stdNo < 1 ||
-      vm.$root.stdNo > 40 ||
-      vm.$root.assessment === '' ||
-      vm.$root.selectedMode === 0) {
-      vm.$root.currentRoute = '/home'
-      window.alert('Input all information properly')
-    } else {
-      document.getElementById('').focus()
-      axios.get('./api/assessment/' + vm.$root.assessmentName + '/size')
-        .then(response => {
-          vm.$root.vocabids = _.shuffle(_.range(response.data))
-          // ref. https://lodash.com/docs/4.17.4#range
-          console.log(vm.$root.assessmentName)
-          console.log(vm.$root.vocabids)
-          vm.onStart()
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+    // document.getElementById('ans').focus()
+    axios.get('./api/assessment/' + vm.$root.assessmentName + '/size')
+      .then(response => {
+        vm.$root.vocabids = _.shuffle(_.range(response.data))
+        // ref. https://lodash.com/docs/4.17.4#range
+        console.log(vm.$root.assessmentName)
+        console.log(vm.$root.vocabids)
+        vm.onStart()
+      })
+      .catch(error => {
+        console.log(error)
+      })
   },
-
   methods: {
     onStart () {
       const vm = this
@@ -121,13 +110,16 @@ export default {
           vm.getNextVocab()
         }) // function(response) end
     }, // checkAns() end
+    getVoiceSrc () {
+      const vm = this
+      const url = './api/voice/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[vm.index] + '?speed=0.24'
+      vm.voiceUrl = url
+      vm.$refs.player.load()
+    },
     voiceOut () {
       const vm = this
       // const url = 'https://careers.liping.edu.hk/edict/api/voice/vocab/id/' + vm.$root.vocabids[vm.index]
-      const url = './api/voice/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[vm.index] + '?speed=0.24'
-      /* global Audio*/
-      const audio = new Audio(url)
-      audio.play()
+      vm.$refs.player.play()
     },
     getNextVocab () {
       const vm = this
@@ -163,11 +155,11 @@ export default {
           .then(function (response) {
             console.log(response.data)
             vm.msg = response.data.definition
+            vm.getVoiceSrc()
           })
           .catch(function (error) {
             console.log(error)
           })
-        vm.voiceOut()
       } else {
         vm.$root.currentRoute = '/report'
       }
