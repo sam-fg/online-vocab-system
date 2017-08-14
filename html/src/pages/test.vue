@@ -147,6 +147,7 @@ export default {
 
       if (needRestart) {
         // restart test
+        /* global alert */
         alert('Restart Test')
         vm.onStart()
         return
