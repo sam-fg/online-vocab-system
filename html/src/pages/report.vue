@@ -1,8 +1,8 @@
 <template lang="html">
-  <div>
+  <div class="container">
     <p id="date"></p>
     <h4><i><b>S.K.H. Li Ping Secondary School</b></i></h4>
-    <h4><i>Online Vocabulary Test Report</i></h4>
+    <h4><i>Online Vocabulary Test Report</i> <button class="btn btn-info" @click.prevent="onPrint">Print</button></h4>
     <hr>
     <table>
       <tr>
@@ -17,7 +17,7 @@
     <hr>
     <h1>[{{$root.assessmentName}}]</h1>
     <div>
-      <table>
+      <table class="table">
         <tr>
           <td><b><u>X--Your WRONG Answers--X</u></b></td>
           <td><b>--> <u>Correct Spelling</u></b></td>
@@ -70,6 +70,11 @@ export default {
       const vm = this
       return vm.$root.vocabids.length - vm.$root.wrongVocabs.length
     },
+  },
+  methods: {
+    onPrint () {
+      window.print();
+    }
   }
 }
 

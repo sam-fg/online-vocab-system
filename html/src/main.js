@@ -21,7 +21,7 @@ new Vue({ // eslint-disable-line no-new
       stdClass: "",
       stdNo: "",
       assessmentName: "", //@Home, Test
-      selectedMode: 0, //@Home, Test
+      selectedMode: "1", //@Home, Test
       wrongVocabs: [], //@Test, Report
       vocabids: [], //@Home (level filter), Test
     }

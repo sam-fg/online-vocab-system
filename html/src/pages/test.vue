@@ -1,42 +1,43 @@
 <template lang="html">
 
-<div style='width: 500px; margin-top: 12px' class="mx-auto"> <!-- 1 -->
+  <div style='width: 500px; margin-top: 12px' class="mx-auto"> <!-- 1 -->
 
-<div class="card border-info mb-3" style="max-width: 50rem;"> <!-- 2 -->
-<div class="card-header"><h5><B><font color='#336699'>English Vocabulary Test</font></b></h5></div>  <!-- XX -->
+    <div class="card border-info mb-3" style="max-width: 50rem;"> <!-- 2 -->
+      <div class="card-header">
+        <h5><B style='color: #336699'>English Vocabulary Test</b></h5>
+      </div>  <!-- XX -->
 
-  <div class="card-body text-info">  <!-- 3 -->
-  <h1 class="card-title">{{$root.assessmentName}}</h1>
+      <div class="card-body text-info">  <!-- 3 -->
+        <h1 class="card-title">{{$root.assessmentName}}</h1>
 
- <p class="card-text">
+        <p class="card-text">
+          <div>
+            <h5>{{$root.stdClass}} - {{$root.engName}} ({{$root.stdNo}})</h5>
+            <hr>
 
-  <div>
-    <h5>{{$root.stdClass}} - {{$root.engName}} ({{$root.stdNo}})</h5>
-    <hr>
-  <div style="margin-top:12px">
-    <h2>Q{{index+1}}/{{$root.vocabids.length}}: {{msg}}
-    <button class='btn btn-primary btn-sm' name="button" @click="voiceOut">Listen again</button>
-    </h2>
-  </div>
-    <hr>
+            <div style="margin-top:12px">
+              <h2>Q{{index+1}}/{{$root.vocabids.length}}: {{msg}}
+                <button class='btn btn-primary btn-sm' name="button" @click="voiceOut">Listen again</button>
+              </h2>
+            </div>
+            <hr>
 
-    <div style="margin-top:12px">
-      Your answer:
+            <div style="margin-top:12px">
+              Your answer:
 
-      <input
-        id="ans"
-        v-model="engAns"
-        placeholder=""
-        @keypress.enter.prevent="checkAns"
-      >
-
-    </div>
-  </div>
-
-</p>
-</div> <!-- 3 -->
-</div> <!-- 2 -->
-</div> <!-- 1 -->
+              <input
+              id="ans"
+              v-model="engAns"
+              placeholder=""
+              @keypress.enter.prevent="checkAns"
+              />
+            </div>
+          </div>
+        </p>
+      </div> <!-- 3 -->
+      <div class="card-footer">Mode: {{mode}}</div>
+    </div> <!-- 2 -->
+  </div> <!-- 1 -->
 
 </template>
 
@@ -58,7 +59,18 @@ export default {
       //vocabids: [], //@Test
     }
   },
-
+  computed: {
+    mode () {
+      switch (this.$root.selectedMode) {
+        case "1":
+          return 'Normal'
+        case "2":
+          return 'At least 50% correct'
+        case "3":
+          return 'At least 75% correct'
+      }
+    }
+  },
   mounted() {
     const vm = this
       if (vm.$root.engName == ""

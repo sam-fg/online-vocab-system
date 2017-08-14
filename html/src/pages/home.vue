@@ -7,7 +7,7 @@
         <div class="card-body text-info">
           <h2>Online Vocabulary Tests</h2>
           <p class="card-text">
-<form>
+          <form>
               <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Name (FULL):</label>
                 <div class="col-sm-7">
@@ -71,16 +71,17 @@
               <div class="form-group row">
                 <label class="col-sm-4">Mode:</label>
                 <div class="col-sm-7">
-                  <select v-model="$root.selectedMode" class="form-control">
-                    <option value="1">Normal</option>
+                  {{$root.selectedMode}}
+                  <select class="form-control" @change="function(e) {$root.selectedMode=e.target.value}" >
+                    <option value="1" selected>Normal</option>
                     <option value="2">At least 50% correct</option>
                     <option value="3">At least 75% correct</option>
                   </select>
                 </div>
               </div>
 
-                <button class="btn btn-primary btn-lg" @click="onStart" type="submit">Start the test</button>
-</form>
+              <button class="btn btn-primary btn-lg" @click="onStart" type="submit">Start the test</button> 
+          </form>
 
           </p>
         </div>
