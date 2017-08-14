@@ -16,7 +16,7 @@ new Vue({ // eslint-disable-line no-new
   el: '#app', // This is an ID included in "index.html"
   data () {
     return {
-      currentRoute: '',
+      currentRoute: '/home',
       engName: '',
       stdClass: '',
       stdNo: '',

@@ -1,111 +1,87 @@
 <template>
-
-<div style='width: 500px; margin-top: 12px' class="mx-auto">
-
-<div class="card border-info mb-3" style="max-width: 50rem;">
-  <div class="card-header"><H5><B><font color='#336699'>S.K.H. Li Ping Secondary School</font></B></H5></div>
-        <div class="card-body text-info">
-          <h2>Online Vocabulary Tests</h2>
-          <p class="card-text">
-          <form>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Name (FULL):</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control" v-model="$root.engName" placeholder="Name (FULL)">
-                </div>
+  <div style='width: 500px; margin-top: 12px' class="mx-auto">
+    <div class="card border-info mb-3" style="max-width: 50rem;">
+      <div class="card-header">
+          <H5>
+            <b style='color: #336699;'>S.K.H. Li Ping Secondary School</b>
+          </H5>
+      </div>
+      <div class="card-body text-info">
+        <h2>Online Vocabulary Tests</h2>
+        <p class="card-text">
+          <form class="form-control">
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Name (FULL):</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control" v-model="$root.engName" placeholder="Name (FULL)">
               </div>
+            </div>
 
-              <div class="form-group row">
-                <label class="col-sm-4">Class:</label>
-                <div class="col-sm-7">
-                  <select v-model="$root.stdClass" class="form-control">
-                      <option value="1A">1A</option>
-                      <option value="1B">1B</option>
-                      <option value="1C">1C</option>
-                      <option value="1D">1D</option>
-                      <option value="2A">2A</option>
-                      <option value="2B">2B</option>
-                      <option value="2C">2C</option>
-                      <option value="2D">2D</option>
-                      <option value="3A">3A</option>
-                      <option value="3B">3B</option>
-                      <option value="3C">3C</option>
-                      <option value="3D">3D</option>
-                      <option value="4A">4A</option>
-                      <option value="4B">4B</option>
-                      <option value="4C">4C</option>
-                      <option value="4D">4D</option>
-                      <option value="4E">4E</option>
-                      <option value="5A">5A</option>
-                      <option value="5B">5B</option>
-                      <option value="5C">5C</option>
-                      <option value="5D">5D</option>
-                      <option value="5E">5E</option>
-                      <option value="6A">6A</option>
-                      <option value="6B">6B</option>
-                      <option value="6C">6C</option>
-                      <option value="6D">6D</option>
-                      <option value="6E">6E</option>
-                  </select>
-                </div>
+            <div class="form-group row">
+              <label class="col-sm-4">Class:</label>
+              <div class="col-sm-7">
+                <select v-model="$root.stdClass" class="form-control">
+                  <option v-for="clazz in clazzes">
+                    {{clazz}}
+                  </option>
+                </select>
               </div>
+            </div>
 
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Class Number:</label>
-                <div class="col-sm-7">
-                  <input class="form-control" type="number" min="1" max="40" v-model="$root.stdNo" placeholder="Class Number">
-                </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label">Class Number:</label>
+              <div class="col-sm-7">
+                <input class="form-control" type="number" min="1" max="40" v-model="$root.stdNo" placeholder="Class Number">
               </div>
+            </div>
 
-              <div class="form-group row">
-                <label class="col-sm-4">Test:</label>
-                <div class="col-sm-7">
-                  <select v-model="$root.assessmentName" class="form-control" @change="vocabsToBeTested">
-                    <option v-for="name in assessmentNames" v-bind:value="name">
+            <div class="form-group row">
+              <label class="col-sm-4">Test:</label>
+              <div class="col-sm-7">
+                <select v-model="$root.assessmentName" class="form-control" @change="vocabsToBeTested">
+                  <option v-for="name in assessmentNames" v-bind:value="name">
                     {{name}}
-                    </option>
-                  </select>
-                </div>
+                  </option>
+                </select>
               </div>
+            </div>
 
-              <div class="form-group row">
-                <label class="col-sm-4">Mode:</label>
-                <div class="col-sm-7">
-                  {{$root.selectedMode}}
-                  <select class="form-control" @change="function(e) {$root.selectedMode=e.target.value}" >
-                    <option value="1" selected>Normal</option>
-                    <option value="2">At least 50% correct</option>
-                    <option value="3">At least 75% correct</option>
-                  </select>
-                </div>
+            <div class="form-group row">
+              <label class="col-sm-4">Mode:</label>
+              <div class="col-sm-7">
+                {{$root.selectedMode}}
+                <select class="form-control" @change="function(e) {$root.selectedMode=e.target.value}" >
+                  <option value="1" selected>Normal</option>
+                  <option value="2">At least 50% correct</option>
+                  <option value="3">At least 75% correct</option>
+                </select>
               </div>
+            </div>
 
-              <button class="btn btn-primary btn-lg" @click="onStart" type="submit">Start the test</button> 
+            <button class="btn btn-primary btn-lg" @click="onStart" type="submit">
+              Start the test
+            </button> 
           </form>
-
-          </p>
-        </div>
-
+        </p>
+      </div>
+    </div>
   </div>
-
-</div>
-
 </template>
 
 <script>
 import axios from 'axios'
-import config from '../config.js'
 
 export default {
   data () {
     return {
       // @Test
-      assessmentNames: []
+      assessmentNames: [],
+      clazzes: ['1A', '1B', '1C', '1D', '2A', '2B', '2C', '2D', '3A', '3B', '3C', '3D', '4A', '4B', '4C', '4D', '4E', '5A', '5B', '5C', '5D', '5E', '6A', '6B', '6C', '6D', '6E']
     }
   },
   mounted () {
     const vm = this
-    axios.get(config.serverBase + 'api/assessment/', {withCredentials: true})
+    axios.get('./api/assessment/', {withCredentials: true})
       .then(function (response) {
         vm.assessmentNames = response.data
         console.log(vm.assessmentNames)
@@ -114,7 +90,6 @@ export default {
         console.log(error)
       })
   },
-
   methods: {
     onStart () {
       const vm = this

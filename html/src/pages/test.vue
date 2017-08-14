@@ -45,8 +45,6 @@
 import axios from 'axios'
 import _ from 'lodash'
 
-import config from '../config.js'
-
 export default {
   data () {
     return {
@@ -83,7 +81,7 @@ export default {
       window.alert('Input all information properly')
     } else {
       document.getElementById('').focus()
-      axios.get(config.serverBase + 'api/assessment/' + vm.$root.assessmentName + '/size')
+      axios.get('./api/assessment/' + vm.$root.assessmentName + '/size')
         .then(response => {
           vm.$root.vocabids = _.shuffle(_.range(response.data))
           // ref. https://lodash.com/docs/4.17.4#range
@@ -108,7 +106,7 @@ export default {
       const vm = this
       const id = vm.$root.vocabids[vm.index]
       const ans = vm.engAns.trim()
-      axios.get(config.serverBase + 'api/check/assessment/' + vm.$root.assessmentName + '/index/' + id + '?ans=' + ans)
+      axios.get('./api/check/assessment/' + vm.$root.assessmentName + '/index/' + id + '?ans=' + ans)
         .then(function (response) {
           vm.isCorrect = response.data
 
@@ -126,7 +124,7 @@ export default {
     voiceOut () {
       const vm = this
       // const url = 'https://careers.liping.edu.hk/edict/api/voice/vocab/id/' + vm.$root.vocabids[vm.index]
-      const url = config.serverBase + 'api/voice/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[vm.index] + '?speed=0.24'
+      const url = './api/voice/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[vm.index] + '?speed=0.24'
       /* global Audio*/
       const audio = new Audio(url)
       audio.play()
@@ -161,7 +159,7 @@ export default {
         const index = vm.index
 
         console.log('index', vm.$root.vocabids[index])
-        axios.get(config.serverBase + 'api/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[index])
+        axios.get('./api/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[index])
           .then(function (response) {
             console.log(response.data)
             vm.msg = response.data.definition

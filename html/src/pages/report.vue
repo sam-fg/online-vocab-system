@@ -38,7 +38,6 @@
 import axios from 'axios'
 import _ from 'lodash'
 
-import config from '../config.js'
 export default {
   data () {
     return {
@@ -50,7 +49,7 @@ export default {
     document.getElementById('date').innerHTML = Date()
 
     const vm = this
-    axios.post(config.serverBase + 'api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
+    axios.post('./api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
       .then(function (response) {
         vm.stat = _.orderBy(response.data, 'index')
       })
