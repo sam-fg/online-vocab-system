@@ -49,7 +49,6 @@
             <div class="form-group row">
               <label class="col-sm-4">Mode:</label>
               <div class="col-sm-7">
-                {{$root.selectedMode}}
                 <select class="form-control" @change="function(e) {$root.selectedMode=e.target.value}" >
                   <option value="1" selected>Normal</option>
                   <option value="2">At least 50% correct</option>
