@@ -4,38 +4,48 @@
     <audio :src='voiceUrl' autoplay ref='player'></audio>
     <div class="card border-info mb-3" style="max-width: 50rem;"> <!-- 2 -->
       <div class="card-header">
-        <h5><B style='color: #336699'>English Vocabulary Test</b></h5>
+        <h1 class="text-center">
+          <b style='color: #336699'>English Vocabulary Test</b>
+        </h1>
+        <h2 class="card-title text-center" style="color: #336699">{{$root.assessmentName}}</h2>
       </div>  <!-- XX -->
 
       <div class="card-body text-info">  <!-- 3 -->
-        <h1 class="card-title">{{$root.assessmentName}}</h1>
-
-        <p class="card-text">
-          <div>
-            <h5>{{$root.stdClass}} - {{$root.engName}} ({{$root.stdNo}})</h5>
+        <div class="card-block">
+            <h2>
+              Q{{index+1}}/{{$root.vocabids.length}}: {{msg}}
+            </h2>
             <hr>
 
-            <div style="margin-top:12px">
-              <h2>Q{{index+1}}/{{$root.vocabids.length}}: {{msg}}
-                <button class='btn btn-primary btn-sm' name="button" @click="voiceOut">Listen again</button>
-              </h2>
-            </div>
-            <hr>
-
-            <div style="margin-top:12px">
-              Your answer:
-
+            <div>
               <input
               id="ans"
+              class="form-control"
               v-model="engAns"
               placeholder=''
               @keypress.enter.prevent="checkAns"
               />
             </div>
+            <button style="margin-top:12px" class='btn btn-primary' name="button" @click.prevent="voiceOut">Listen again</button>
           </div>
-        </p>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-sm-6">
+              <b>
+                Mode: {{mode}}
+              </b>
+            </div>
+            <div class="col-sm-6 text-right">
+              <div class="card-text">
+                <b>
+                  {{$root.stdClass}} - {{$root.engName}} ({{$root.stdNo}})
+                </b>
+              </div>
+            </div>
+          </div>
+        </div>
       </div> <!-- 3 -->
-      <div class="card-footer">Mode: {{mode}}</div>
     </div> <!-- 2 -->
   </div> <!-- 1 -->
 
@@ -71,13 +81,11 @@ export default {
   },
   mounted () {
     const vm = this
-    // document.getElementById('ans').focus()
+    document.getElementById('ans').focus()
     axios.get('./api/assessment/' + vm.$root.assessmentName + '/size')
       .then(response => {
         vm.$root.vocabids = _.shuffle(_.range(response.data))
         // ref. https://lodash.com/docs/4.17.4#range
-        console.log(vm.$root.assessmentName)
-        console.log(vm.$root.vocabids)
         vm.onStart()
       })
       .catch(error => {
@@ -144,17 +152,16 @@ export default {
       }
 
       vm.index++
-      console.log(vm.index, vm.$root.vocabids.length)
       if (vm.index < vm.$root.vocabids.length) {
         vm.isCorrect = false
         vm.engAns = ''
         const index = vm.index
 
-        console.log('index', vm.$root.vocabids[index])
         axios.get('./api/assessment/' + vm.$root.assessmentName + '/index/' + vm.$root.vocabids[index])
           .then(function (response) {
-            console.log(response.data)
-            vm.msg = response.data.definition
+            const {definition, partOfSpeech} = response.data
+            vm.msg = `${definition} (${partOfSpeech})`
+
             vm.getVoiceSrc()
           })
           .catch(function (error) {

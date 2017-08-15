@@ -1,32 +1,49 @@
 <template lang="html">
-  <div class="container">
-    <p id="date"></p>
-    <h4><i><b>S.K.H. Li Ping Secondary School</b></i></h4>
-    <h4><i>Online Vocabulary Test Report</i> <button class="btn btn-info" @click.prevent="onPrint">Print</button></h4>
-    <hr>
-    <table>
-      <tr>
-        <td><h5>Student : </h5></td>
-        <td><h3>{{$root.stdClass}} {{$root.engName}} ({{$root.stdNo}})</h3></td>
-      </tr>
-      <tr>
-        <td><h5>Score : </h5></td>
-        <td><h3>{{correctVocabs}}/{{$root.vocabids.length}} ({{correctPercent}}%)</h3></td>
-      </tr>
-    </table>
-    <hr>
-    <h1>[{{$root.assessmentName}}]</h1>
-    <div>
-      <table class="table">
-        <tr>
-          <td><b><u>X--Your WRONG Answers--X</u></b></td>
-          <td><b>--> <u>Correct Spelling</u></b></td>
-        </tr>
-        <tr v-for="s in stat">
-          <td>{{s.ans}}</td>
-          <td> --> {{s.title}}</td>
-          <td>({{s.partOfSpeech}})</td>
-        </tr>
+  <div class="container" style='width: 60%;'>
+    <p id="date" class="text-right"></p>
+    <div style="font-style: italic">
+      <h1>S.K.H. Li Ping Secondary School</h1>
+      <h2>Online Vocabulary Test Report</h2>
+      <h3>Test: <small>{{$root.assessmentName}}</small></h3>
+    </div>
+    <hr style="border-width: 12px">
+    <div class="row">
+      <div class="col-sm-1">
+        Student:
+      </div>
+      <div class="col-sm-4">
+        <h3>
+          {{$root.stdClass}} {{$root.engName}} ({{$root.stdNo}})
+        </h3>
+      </div>
+      <div class="col-sm-1">
+        Score:
+      </div>
+      <div class="col-sm-4">
+        <h3>
+          {{correctVocabs}}/{{$root.vocabids.length}} ({{correctPercent}}%)
+        </h3>
+      </div>
+      <div class="col-sm-2">
+        <button class="btn btn-info" @click.prevent="onPrint">Print</button>
+      </div>
+    </div>
+    <div style="width: 80%; margin-top: 12px" class="mx-auto text-center">
+      <table class="table table-hover">
+        <thead class="thead-inverse">
+          <tr>
+            <td class="text-right" width='40%'><b>Your WRONG Answers</b></td>
+            <td width='20%'>--> </td>
+            <td class="text-left" width='40%'><b>Correct Spelling</b></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="s in stat">
+            <td class="text-right">{{s.ans}}</td>
+            <td>--></td>
+            <td class="text-left">{{s.title}}</td>
+          </tr>
+        </tbody>
       </table>
 
     </div>
@@ -46,7 +63,7 @@ export default {
   },
   mounted () {
     /* global document */
-    document.getElementById('date').innerHTML = Date()
+    document.getElementById('date').innerHTML = new Date().toDateString()
 
     const vm = this
     axios.post('./api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
