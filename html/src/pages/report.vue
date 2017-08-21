@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="container" style='width: 60%;'>
-    <p id="date" class="text-right"></p>
+    <p class="text-right">{{date}}</p>
     <div style="font-style: italic">
       <h1>S.K.H. Li Ping Secondary School</h1>
       <h2>Online Vocabulary Test Report</h2>
@@ -63,7 +63,6 @@ export default {
   },
   mounted () {
     /* global document */
-    document.getElementById('date').innerHTML = new Date().toDateString()
 
     const vm = this
     axios.post('./api/assessment/' + vm.$root.assessmentName + '/report/', vm.$root.wrongVocabs)
@@ -75,6 +74,10 @@ export default {
       })
   },
   computed: {
+    date () {
+      const now = new Date()
+      return `${now.toDateString()} ${now.toLocaleTimeString()}`
+    },
     correctPercent () {
       const vm = this
       const percentage = (1 - (vm.$root.wrongVocabs.length / vm.$root.vocabids.length))
