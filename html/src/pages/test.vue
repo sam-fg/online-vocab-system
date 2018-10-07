@@ -19,6 +19,10 @@
 
             <div>
               <input
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
               id="ans"
               class="form-control"
               v-model="engAns"
